@@ -7,11 +7,15 @@ const auth = async(req,res,next)=>{
         const verify = jwt.verify(token,process.env.SECRET_KEY)
         const _id = verify._id
         const user = await RegisterData.findById({_id});
-        console.log(user);
-        res.send("Hello "+user.fname+" "+user.lname+" you have logged in!")
-        // next();
+
+        //storing data
+        req.user = user;
+        req.token = token;
+
+        // res.send("Hello "+user.fname+" "+user.lname+" you have logged in!")
+        next();  // if we do next control reaches back to the of function
     } catch (error) {
-        console.log("there is error "+error);
+        res.send("you got an error " + error)
     }
 }
 

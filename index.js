@@ -69,8 +69,15 @@ app.post('/login',async(req,res)=>{
         else
             res.send("Incorrect password!")
     }catch(err){
-        res.send('Email not found!'+err)
+        res.send('Email not found!')
     }
+})
+
+app.get('/logout',auth,async(req,res)=>{
+    res.clearCookie("jwt");
+    //also delete it from db using filter
+    await req.user.save();
+    res.render("reg")
 })
 
 app.listen(process.env.PORT||3000,()=>console.log('server running!'))

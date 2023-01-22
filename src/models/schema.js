@@ -30,6 +30,7 @@ schema.methods.getToken = async function(){
     try {
         let token = jwt.sign({_id:this._id.toString()},process.env.SECRET_KEY)
         this.tokens = this.tokens.concat({token})
+        this.save();  // every time login is done token will be saved, helpful for multiple device login ( chould check if token already presrnt)
         return token;
     } catch (error) {
         console("error generating token "+error);
